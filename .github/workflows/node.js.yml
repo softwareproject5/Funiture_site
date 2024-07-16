@@ -25,7 +25,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ softwareproject5.github.io/Funiture_site }}
+      url: ${{ https://softwareproject5.github.io/Funiture_site }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
