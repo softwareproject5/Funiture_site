@@ -5,6 +5,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  issues: none
+  pull-requests: none
+  actions: read
+  deployments: write
+
 jobs:
   build:
     name: Build
