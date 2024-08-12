@@ -1,14 +1,30 @@
-import { Box } from '@mui/material'
-import React from 'react'
+import React from 'react';
+import { Box, Button } from '@mui/material';
+import logo from "../../../library/DecorIT Black_Transparent.png"
 
 const NavBar = () => {
   return (
-    <div className=' bg-slate-600'>
-    <Box className="sticky top-0 w-full bg-[#c06565] z-50">
-    </Box>
-    </div>
+    <Box sx={
+      {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: "center",
+        bgcolor: "white",
+        color:"white"
+      }
+    }>
+     <img src={logo} className='h-14'/>
+     
 
-  )
+      <Box>
+        <Button variant="contained" color="primary"> dsd </Button>
+        <Button variant="contained" color="primary"> dsd </Button>
+        <Button variant="contained" color="primary"> dsd </Button>
+        <Button variant="contained" color="primary"> dsd </Button>
+        <Button variant="contained" color="primary"> dsd </Button>
+      </Box>
+    </Box>
+  );
 }
 
-export default NavBar
+export default NavBar;
