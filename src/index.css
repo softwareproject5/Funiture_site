@@ -1,4 +1,35 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
+
+@font-face {
+    font-family: calisto;
+    src: url(../src/assets/fonts/CALISTB.TTF);
+}
+
+@font-face {
+    font-family: candara;
+    src: url(../src/assets/fonts/Candara.ttf);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.app {
+    width: 80%;
+    margin: auto;
+}

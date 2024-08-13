@@ -1,0 +1,47 @@
+.navbar {
+    padding: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    width: auto;
+    height: 40px;
+    position: relative;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    color: black;
+    font-size: 18px;
+    font-family: calisto;
+    font-weight: bold;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.navbar-right .search {
+    width: 24px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.navbar-search-icon .cart {
+    width: 24px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.navbar button {
+    background: transparent;
+    font-size: 16px;
+    color: black;
+    border: 1px solid black;
+}

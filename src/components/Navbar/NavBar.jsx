@@ -1,29 +1,27 @@
 import React from 'react';
-import { Box, Button } from '@mui/material';
-import logo from "../../../library/DecorIT Black_Transparent.png"
+import './NavBar.css'; // Corrected import for the CSS file
+import { assets } from '../../assets/assets.js';
 
 const NavBar = () => {
   return (
-    <Box sx={
-      {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: "center",
-        bgcolor: "white",
-        color:"white"
-      }
-    }>
-     <img src={logo} className='h-14'/>
-     
+    <div className='navbar'>
+      <img src={assets.logo_black} alt="logo" className="logo" />
+      <ul className='navbar-menu'>
+        <li>Home</li>
+        <li>Catagory</li>
+        <li>Mobile App</li>
+        <li>About Us</li>
+      </ul>
 
-      <Box>
-        <Button variant="contained" color="primary"> dsd </Button>
-        <Button variant="contained" color="primary"> dsd </Button>
-        <Button variant="contained" color="primary"> dsd </Button>
-        <Button variant="contained" color="primary"> dsd </Button>
-        <Button variant="contained" color="primary"> dsd </Button>
-      </Box>
-    </Box>
+      <div className='navbar-right'>
+        <img src={assets.search} alt=" search" className="search" />
+        <div className='navbar-search-icon'>
+          <img src={assets.cart} alt="cart" className="cart" />
+          <div className='dot'></div>
+        </div>
+        <button>Sign In</button>
+      </div>
+    </div>
   );
 }
 
