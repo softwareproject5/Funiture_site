@@ -55,3 +55,22 @@
     background: var(--darkbrown);
     color: white
 }
+
+.navbar .active{
+    padding-bottom: 2px;
+    border-bottom: var(--darkbrown) 2px solid;
+}
+
+.navbar-search-icon{
+    position: relative;
+}
+
+.navbar-search-icon .dot{
+    position: absolute;
+    min-width: 10px;
+    min-height: 10px;
+    background-color: var(--red);
+    border-radius: 5px;
+    top: -8px;
+    right: -8px;
+}
