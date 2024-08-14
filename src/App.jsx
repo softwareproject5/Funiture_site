@@ -1,15 +1,23 @@
 import React from 'react'
 import NavBar from './components/Navbar/NavBar';
+import LoginPopUp from './components/LoginPopUp/LoginPopUp';
 //import "./App.css"
 
 //import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 const App = () => {
- return(
-  <div className='app'>
-    <NavBar />
-  </div>
- ) 
+
+const[showLogin, setShowLogin] = React.useState(false)
+
+  return (
+    <>
+    {showLogin?<LoginPopUp/>:<></>}
+    <div className='app'>
+      <NavBar setShowLogin={setShowLogin}/>
+    </div>
+    </>
+
+  )
 }
 
 export default App;
