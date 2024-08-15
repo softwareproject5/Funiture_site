@@ -1,6 +1,6 @@
 import React from 'react'
 import NavBar from './components/Navbar/NavBar';
-import LoginPopUp from './components/LoginPopUp/LoginPopUp';
+import LoginPopUp from './components/LoginPopUp/UserLoginPopUp';
 //import "./App.css"
 
 //import { Route, BrowserRouter as Router, Routes } from "react-router-dom";

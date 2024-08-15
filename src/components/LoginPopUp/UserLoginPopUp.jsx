@@ -1,10 +1,10 @@
 import React from 'react'
-import './LoginPopUp.css'
+import './UserLoginPopUp.css'
 import { assets } from '../../assets/assets'
 
-const LoginPopUp = ({ setShowLogin }) => {
+const UserLoginPopUp = ({ setShowLogin }) => {
 
-    const [currentState, setCurrentState] = React.useState("Log In")
+    const [currentState, setCurrentState] = React.useState("LOG IN")
     return (
         <div className='login-popup'>
             <form className="login-popup-container">
@@ -13,22 +13,23 @@ const LoginPopUp = ({ setShowLogin }) => {
                     <img onClick={() => setShowLogin(false)} src={assets.close} alt="close" />
                 </div>
                 <div className="login-popup-inputs">
-                    {currentState === "Log In" ? <></> : <input type="text" placeholder='Your name' required />}
+                    {currentState === "LOG IN" || currentState === "ADMIN LOGIN" ? <></> : <input type="text" placeholder='Your name' required />}
+
                     <input type="email" placeholder='Your email' required />
                     <input type="password" placeholder='Password' required />
                 </div>
                 <button>{currentState === "Sign Up" ? "Create Account" : "Log In"}</button>
-                
+
                 <div className="login-popup-condition">
-                    <input type="checkbox" required/>
+                    <input type="checkbox" required />
                     <p>By continuing, I agree to the terms of use & privacy policy.</p>
                 </div>
-                {currentState === "Log In" ? <p>Create a new account? <span onClick={()=>setCurrentState("Sign Up")}>CLICK HERE</span></p> 
-                : <p>Already have an account?<span onClick={()=>setCurrentState("Log In")}> LOGIN HERE</span></p>}
-                
+                {currentState !== "ADMIN LOGIN" && (currentState === "LOG IN" ? <p>Create a new account? <span onClick={() => setCurrentState("Sign Up")}>CLICK HERE</span></p> : <p>Already have an account?<span onClick={() => setCurrentState("LOG IN")}> LOGIN HERE</span></p>)}
+                {currentState === "LOG IN" ? <p>Login As an Admin <span onClick={() => setCurrentState("ADMIN LOGIN")}>CLICK HERE</span></p> : <></>}
+
             </form>
         </div>
     )
 }
 
-export default LoginPopUp
+export default UserLoginPopUp
