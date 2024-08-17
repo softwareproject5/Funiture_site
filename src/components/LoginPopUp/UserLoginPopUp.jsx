@@ -1,24 +1,62 @@
-import React from 'react'
-import './UserLoginPopUp.css'
-import { assets } from '../../assets/assets'
+import React, { useState } from 'react';
+import './UserLoginPopUp.css';
+import { assets } from '../../assets/assets';
 
 const UserLoginPopUp = ({ setShowLogin }) => {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [currentState, setCurrentState] = useState("LOG IN");
 
-    const [currentState, setCurrentState] = React.useState("LOG IN")
+    const validatePassword = (password) => {
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+    };
+
+    const signUp = async (e) => {
+        e.preventDefault();
+        if (!validatePassword(password)) {
+            setError(
+                'Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, and one number.'
+            );
+            return;
+        }
+        // Add sign-up logic here
+    };
+
+    const logIn = async (e) => {
+        e.preventDefault();
+        if (!validatePassword(password)) {
+            setError(
+                'Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, and one number.'
+            );
+            return;
+        }
+        // Add login logic here
+    };
+
+    const checkSubmition = (e) => {
+        if (currentState === "Sign Up") {
+            signUp(e);
+        } else {
+            logIn(e);
+        }
+    };
+
     return (
         <div className='login-popup'>
-            <form className="login-popup-container">
+            <form onSubmit={checkSubmition} className="login-popup-container">
                 <div className='login-popup-title'>
                     <h2>{currentState}</h2>
                     <img onClick={() => setShowLogin(false)} src={assets.close} alt="close" />
                 </div>
                 <div className="login-popup-inputs">
-                    {currentState === "LOG IN" || currentState === "ADMIN LOGIN" ? <></> : <input type="text" placeholder='Your name' required />}
+                    {currentState === "LOG IN" || currentState === "ADMIN LOGIN" ? <></> : <input type="text" placeholder='Your name' value={username} onChange={(e) => setUsername(e.target.value)} required />}
 
-                    <input type="email" placeholder='Your username or email' required />
-                    <input type="password" placeholder='Password' required />
+                    <input type="email" placeholder='Your username or email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </div>
-                <button id='button1'>{currentState === "Sign Up" ? "Create Account" : "Log In"}</button>
+                <button type='submit' id='button1'>{currentState === "Sign Up" ? "Create Account" : "Log In"}</button>
                 <button id='button2'>{currentState !== "Sign Up" ? "Log In With Google" : "Sign Up With Google"}<img onClick={() => setShowLogin(false)} src={assets.google} alt="" /></button>
 
                 <div className="login-popup-condition">
@@ -33,4 +71,4 @@ const UserLoginPopUp = ({ setShowLogin }) => {
     )
 }
 
-export default UserLoginPopUp
+export default UserLoginPopUp;
