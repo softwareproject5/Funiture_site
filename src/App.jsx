@@ -1,5 +1,5 @@
 import React from 'react'
-import NavBar from './components/Navbar/NavBar';
+import NavBar from './components/NavBar/NavBar';
 import LoginPopUp from './components/LoginPopUp/UserLoginPopUp';
 //import "./App.css"
 
