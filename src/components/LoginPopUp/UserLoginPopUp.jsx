@@ -1,6 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import './UserLoginPopUp.css';
 import { assets } from '../../assets/assets';
+import './UserLoginPopUp.css';
 
 const UserLoginPopUp = ({ setShowLogin }) => {
     const [username, setUsername] = useState('');
@@ -10,10 +11,11 @@ const UserLoginPopUp = ({ setShowLogin }) => {
     const [currentState, setCurrentState] = useState("LOG IN");
 
     const validatePassword = (password) => {
-        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*()_+{}\[\]:;"'<>,.?/])[A-Za-z\d@!#$%^&*()_+{}\[\]:;"'<>,.?/]{8,}$/.test(password);
     };
-
+    
     const signUp = async (e) => {
+        
         e.preventDefault();
     
         if (!validatePassword(password)) {
@@ -22,7 +24,7 @@ const UserLoginPopUp = ({ setShowLogin }) => {
             );
             return;
         }
-            console/log("hii");
+            console.log("hii");
         
     
         try {
@@ -34,7 +36,7 @@ const UserLoginPopUp = ({ setShowLogin }) => {
             });
             console.log(result);
         } catch (err) {
-            console.error('Error during sign-up:', err.message);
+            console.error('Error during sign-up:', err.response ? err.response.data : err.message);
         }
     };
     
