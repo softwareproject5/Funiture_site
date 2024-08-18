@@ -15,18 +15,13 @@ const UserLoginPopUp = ({ setShowLogin }) => {
     };
     
     const signUp = async (e) => {
-        
         e.preventDefault();
-    
         if (!validatePassword(password)) {
             setError(
                 'Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, and one number.'
             );
             return;
         }
-            console.log("hii");
-        
-    
         try {
             console.log(password);
             const result = await axios.post('http://localhost:3001/user/signUp', {
