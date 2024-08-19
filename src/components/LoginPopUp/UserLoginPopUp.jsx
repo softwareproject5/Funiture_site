@@ -37,6 +37,7 @@ const UserLoginPopUp = ({ setShowLogin }) => {
             console.log(result);
         } catch (err) {
             console.error('Error during sign-up:', err.message);
+            setError(err.response.data.error);
         }
     };
     
@@ -45,7 +46,7 @@ const UserLoginPopUp = ({ setShowLogin }) => {
         e.preventDefault();
         if (!validatePassword(password)) {
             setError(
-                'Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, and one number.'
+                'Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one symbol and one number.'
             );
             return;
         }
@@ -72,6 +73,8 @@ const UserLoginPopUp = ({ setShowLogin }) => {
 
                     <input type="email" placeholder='Your username or email' value={email} onChange={(e) => setEmail(e.target.value)} required />
                     <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+
                 </div>
                 <button type='submit' id='button1'>{currentState === "Sign Up" ? "Create Account" : "Log In"}</button>
                 <button id='button2'>{currentState !== "Sign Up" ? "Log In With Google" : "Sign Up With Google"}<img onClick={() => setShowLogin(false)} src={assets.google} alt="" /></button>
