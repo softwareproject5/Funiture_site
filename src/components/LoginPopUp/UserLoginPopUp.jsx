@@ -1,6 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import './UserLoginPopUp.css';
 import { assets } from '../../assets/assets';
+import './UserLoginPopUp.css';
 
 const UserLoginPopUp = ({ setShowLogin }) => {
     const [username, setUsername] = useState('');
@@ -10,8 +11,9 @@ const UserLoginPopUp = ({ setShowLogin }) => {
     const [currentState, setCurrentState] = useState("LOG IN");
 
     const validatePassword = (password) => {
-        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*()_+{}[\]:;"'<>,.?/])[A-Za-z\d@!#$%^&*()_+{}[\]:;"'<>,.?/]{8,}$/.test(password);
     };
+    
 
     const signUp = async (e) => {
         e.preventDefault();
@@ -22,7 +24,7 @@ const UserLoginPopUp = ({ setShowLogin }) => {
             );
             return;
         }
-            console/log("hii");
+           
         
     
         try {
@@ -35,6 +37,7 @@ const UserLoginPopUp = ({ setShowLogin }) => {
             console.log(result);
         } catch (err) {
             console.error('Error during sign-up:', err.message);
+            setError(err.response.data.error);
         }
     };
     
@@ -43,7 +46,7 @@ const UserLoginPopUp = ({ setShowLogin }) => {
         e.preventDefault();
         if (!validatePassword(password)) {
             setError(
-                'Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, and one number.'
+                'Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one symbol and one number.'
             );
             return;
         }
@@ -70,6 +73,8 @@ const UserLoginPopUp = ({ setShowLogin }) => {
 
                     <input type="email" placeholder='Your username or email' value={email} onChange={(e) => setEmail(e.target.value)} required />
                     <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+
                 </div>
                 <button type='submit' id='button1'>{currentState === "Sign Up" ? "Create Account" : "Log In"}</button>
                 <button id='button2'>{currentState !== "Sign Up" ? "Log In With Google" : "Sign Up With Google"}<img onClick={() => setShowLogin(false)} src={assets.google} alt="" /></button>
