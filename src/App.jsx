@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'; // Added Navigate here
+import { Routes, Route, Navigate } from 'react-router-dom'; // Import Navigate for redirects
 import UserLoginPopUp from './components/LoginPopUp/UserLoginPopUp';
 import Add from './pages/Add/Add';
 import List from './pages/List/List';
@@ -65,25 +65,21 @@ const App = () => {
           }
         />
 
-        {/* Admin Panel */}
+        {/* Admin Panel - Allow access without authentication for preview */}
         <Route
           path="/admin-dashboard/*"
           element={
-            userType === 'admin' ? (
-              <>
-                <AdminNavbar />
-                <div className="app-content">
-                  <AdminSidebar />
-                  <Routes>
-                    <Route path="add" element={<Add url={url} />} />
-                    <Route path="list" element={<List url={url} />} />
-                    <Route path="orders" element={<Orders url={url} />} />
-                  </Routes>
-                </div>
-              </>
-            ) : (
-              <Navigate to="/" />
-            )
+            <>
+              <AdminNavbar />
+              <div className="app-content">
+                <AdminSidebar />
+                <Routes>
+                  <Route path="add" element={<Add url={url} />} />   // /admin-dashboard/add
+                  <Route path="list" element={<List url={url} />} />    // /admin-dashboard/list
+                  <Route path="orders" element={<Orders url={url} />} />   // /admin-dashboard/orders
+                </Routes>
+              </div>
+            </>
           }
         />
       </Routes>

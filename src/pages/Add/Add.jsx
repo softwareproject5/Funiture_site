@@ -6,7 +6,8 @@ import { toast } from 'react-toastify';
 
 const Add = ({url}) => {
  
-    const [image, setImage] = useState(false);
+    const [image, setImage] = useState(false); //item image
+    const [modelimage, setModelImage] = useState(false); //3d model image
     const [data, setData] = useState({
         name: "",
         description: "",
@@ -27,7 +28,8 @@ const Add = ({url}) => {
         formData.append("description", data.description);
         formData.append("price", Number(data.price));
         formData.append("category", data.category);
-        formData.append("image", data.image);
+        formData.append("image", data.image); //item image
+        formData.append("modelimage", data.modelimage); //3d model image
         const response = await axios.post(`${url}/api/`,formData) //endpoint where we upload the product
     if(response.data.success){
         setData({
@@ -36,7 +38,8 @@ const Add = ({url}) => {
             price: "",
             category: "Table"
         })
-        setImage(false)
+        setImage(false) //item image
+        setModelImage(false) //3d model image
         toast.success(response.data.message) //display message when item added successfully
     }
     else{
@@ -57,11 +60,11 @@ toast.error(response.data.message) //display message when item not added success
                 </div>
 
                 <div className='add-img-upload flex-col'>
-                    <p>Upload 3D Image :</p>
-                    <label htmlFor='image'>
-                        <img src={image ? URL.createObjectURL(image) : assets.upload} alt='upload' />
+                    <p>Upload 3D Model :</p>
+                    <label htmlFor='modelimage'>
+                        <img src={modelimage ? URL.createObjectURL(modelimage) : assets.upload} alt='upload' />
                     </label>
-                    <input onChange={(e) => setImage(e.target.files[0])} type='file' id='image' hidden required />
+                    <input onChange={(e) => setModelImage(e.target.files[0])} type='file' id='modelimage' hidden required />
                 </div>
 
                 <div className='add-product-name flex-col'>
