@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { assets } from '../../assets/assets';
 import './UserLoginPopUp.css';
 
-
-const UserLoginPopUp = ({ setShowLogin }) => {
+const UserLoginPopUp = ({ setShowLogin, setUserType }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,21 +11,19 @@ const UserLoginPopUp = ({ setShowLogin }) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [currentState, setCurrentState] = useState("LOG IN");
 
+    // Password validation function
     const validatePassword = (password) => {
         return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*()_+{}[\]:;"'<>,.?/])[A-Za-z\d@!#$%^&*()_+{}[\]:;"'<>,.?/]{8,}$/.test(password);
     };
 
+    // Sign-up logic
     const signUp = async (e) => {
         e.preventDefault();
-
-        // Reset error and success messages
         setError('');
         setSuccessMessage('');
 
         if (!validatePassword(password)) {
-            setError(
-                'Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, and one number.'
-            );
+            setError('Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, and one number.');
             return;
         }
 
@@ -37,29 +34,19 @@ const UserLoginPopUp = ({ setShowLogin }) => {
                 password: password
             });
 
-            // Handle successful signup
             setSuccessMessage('Account created successfully!');
             setUsername('');
             setEmail('');
             setPassword('');
             setCurrentState("LOG IN");
-
-
         } catch (err) {
-            if (err.response && err.response.data.error) {
-                // Handle specific errors returned from the backend (e.g., "Username is already taken")
-                setError(err.response.data.error);
-            } else {
-                // Generic error
-                setError('Error during sign-up. Please try again.');
-            }
+            setError(err.response?.data?.error || 'Error during sign-up. Please try again.');
         }
     };
 
+    // User login logic
     const logIn = async (e) => {
         e.preventDefault();
-
-        // Add login logic here
         setError('');
         setSuccessMessage('');
 
@@ -71,19 +58,46 @@ const UserLoginPopUp = ({ setShowLogin }) => {
 
             if (result.data === 'success') {
                 setSuccessMessage('Logged in successfully!');
-                // You can redirect or perform further actions here
+                setUserType('user'); // Set user type to 'user'
+                setShowLogin(false); // Close the login popup
             } else {
                 setError('Invalid login credentials. Please try again.');
             }
         } catch (err) {
-            console.error('Error during login:', err.message);
             setError('Error during login. Please try again.');
         }
     };
 
-    const checkSubmition = (e) => {
+    // Admin login logic
+    const adminLogIn = async (e) => {
+        e.preventDefault();
+        setError('');
+        setSuccessMessage('');
+
+        try {
+            const result = await axios.post('http://localhost:3001/admin/login', {
+                name: username,
+                password: password
+            });
+
+            if (result.data === 'success') {
+                setSuccessMessage('Admin logged in successfully!');
+                setUserType('admin'); // Set user type to 'admin'
+                setShowLogin(false); // Close the login popup
+            } else {
+                setError('Invalid admin login credentials. Please try again.');
+            }
+        } catch (err) {
+            setError('Error during admin login. Please try again.');
+        }
+    };
+
+    // Form submission handler
+    const checkSubmission = (e) => {
         if (currentState === "Sign Up") {
             signUp(e);
+        } else if (currentState === "ADMIN LOGIN") {
+            adminLogIn(e);
         } else {
             logIn(e);
         }
@@ -91,34 +105,36 @@ const UserLoginPopUp = ({ setShowLogin }) => {
 
     return (
         <div className='login-popup'>
-            <form onSubmit={checkSubmition} className="login-popup-container">
+            <form onSubmit={checkSubmission} className="login-popup-container">
                 <div className='login-popup-title'>
                     <h2>{currentState}</h2>
                     <img onClick={() => setShowLogin(false)} src={assets.close} alt="close" />
                 </div>
                 <div className="login-popup-inputs">
-                    {currentState === "LOG IN" || currentState === "ADMIN LOGIN" ? <></> : (
-                        <input 
-                            type="text" 
-                            placeholder='Your name' 
-                            value={username} 
-                            onChange={(e) => setUsername(e.target.value)} 
-                            required 
+                    {/* Show email only for user/admin login */}
+                    {currentState === "Sign Up" && (
+                        <input
+                            type="text"
+                            placeholder='Your name'
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
                         />
                     )}
-                    <input 
-                        type="email" 
-                        placeholder='Your email' 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        required 
+                    <input
+                        type="email"
+                        placeholder='Your email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        disabled={currentState === "ADMIN LOGIN"} // Disable email for admin login
                     />
-                    <input 
-                        type="password" 
-                        placeholder='Password' 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
+                    <input
+                        type="password"
+                        placeholder='Password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                 </div>
 
@@ -133,7 +149,7 @@ const UserLoginPopUp = ({ setShowLogin }) => {
                 </button>
                 <button id='button2'>
                     {currentState !== "Sign Up" ? "Log In With Google" : "Sign Up With Google"}
-                    <img onClick={() => setShowLogin(false)} src={assets.google} alt="" />
+                    <img onClick={() => setShowLogin(false)} src={assets.google} alt="Google Login" />
                 </button>
 
                 <div className="login-popup-condition">
@@ -142,14 +158,16 @@ const UserLoginPopUp = ({ setShowLogin }) => {
                 </div>
 
                 {currentState !== "ADMIN LOGIN" && (
-                    currentState === "LOG IN" 
+                    currentState === "LOG IN"
                         ? <p>Create a new account? <span onClick={() => setCurrentState("Sign Up")}>CLICK HERE</span></p>
                         : <p>Already have an account?<span onClick={() => setCurrentState("LOG IN")}> LOGIN HERE</span></p>
                 )}
-                {currentState === "LOG IN" && <a>Login As an Admin <span onClick={() => setCurrentState("ADMIN LOGIN")}>CLICK HERE</span></a>}
+                {currentState === "LOG IN" && (
+                    <a>Login As an Admin <span onClick={() => setCurrentState("ADMIN LOGIN")}>CLICK HERE</span></a>
+                )}
             </form>
         </div>
     );
-}
+};
 
 export default UserLoginPopUp;
